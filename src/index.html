@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Bootstrap w/ Webpack</title>
+    <title>News Api</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -13,7 +13,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#"></a>
             </li>
@@ -39,9 +39,9 @@
               <a id="categoryTechnology" class="nav-link" href="#">Technology</a>
             </li>
           </ul>
-          <form class="d-flex" role="search">
-            <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-            <button id="buttonSearch" class="btn btn-outline-light" type="submit">Search</button>
+          <form id="formSearch" class="d-flex" role="search">
+            <input id="searchInput" class="form-control me-2" type="search" placeholder="E.g. Tesla" aria-label="Search" />
+            <button class="btn btn-outline-light" type="submit">Search</button>
           </form>
         </div>
       </div>
@@ -51,6 +51,6 @@
       <h2>Businnes</h2>
       <hr class="border border-secondary border-2 opacity-50" />
     </div>
-    <div id="listNews" class="row row-cols-1 row-cols-md-4 g-4 mx-5 p-1"></div>
+    <div id="listNews" class="row row-cols-1 row-cols-md-4 g-4 mx-md-2 px-5"></div>
   </body>
 </html>

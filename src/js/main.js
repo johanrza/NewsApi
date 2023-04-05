@@ -22,6 +22,15 @@ function main() {
       });
   };
 
+  // const onSearchClicked = async () => {
+  //   try {
+  //     const result = await DataSource.searchClub(inputSearch.value);
+  //     renderResult(result);
+  //   } catch (message) {
+  //     fallbackResult(message);
+  //   }
+  // };
+
   const renderAllNews = (News) => {
     const listNewsElement = document.getElementById("listNews");
     listNewsElement.innerHTML = "";
@@ -58,7 +67,7 @@ function main() {
     const catSports = document.getElementById("categorySports");
     const catTechnology = document.getElementById("categoryTechnology");
     const inputSearch = document.getElementById("searchInput");
-    const buttonInputSearch = document.getElementById("buttonSearch");
+    const formSearch = document.getElementById("formSearch");
 
     catGeneral.addEventListener("click", (event) => {
       event.preventDefault();
@@ -103,10 +112,13 @@ function main() {
       getNews(baseUrlCategory);
     });
 
-    buttonInputSearch.addEventListener("click", () => {
-      const news = {
-        title: inputSearch.ariaValueMax,
-      };
+    formSearch.addEventListener("submit", (event) => {
+      event.preventDefault();
+      let news = "";
+      news = inputSearch.value;
+      baseUrlCategory = baseUrlCategory.replace("top-headlines?country=us&category=", `everything?q=${news}`);
+      getNews(baseUrlCategory);
+      console.log(baseUrlCategory);
     });
 
     getNews(baseUrlCategory);
