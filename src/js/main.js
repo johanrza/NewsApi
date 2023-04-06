@@ -1,6 +1,8 @@
+import "../component/title-category";
+
 function main() {
   const baseUrl = "https://newsapi.org/v2/";
-  let baseUrlCategory = `${baseUrl}top-headlines?country=us&category=`;
+  let baseUrlCategory = `${baseUrl}top-headlines?country=us&category=general`;
   let baseUrlSearch = `${baseUrl}everything?q=`;
 
   const getNews = (url) => {
@@ -37,11 +39,15 @@ function main() {
   };
 
   const getCategory = (category) => {
+    const title = document.querySelector("title-news");
+    title.titleNews = category.charAt(0).toUpperCase() + category.slice(1);
     baseUrlCategory = baseUrlCategory.replace(/category=[^&]*/, `category=${category}`);
     getNews(baseUrlCategory);
   };
 
   const getSearchNews = (keyword) => {
+    const title = document.querySelector("title-news");
+    title.titleNews = `Kata kunci yang dicari: ${keyword}`;
     baseUrlSearch = `${baseUrlSearch}${keyword}`;
     getNews(baseUrlSearch);
     baseUrlSearch = `${baseUrl}everything?q=`;
