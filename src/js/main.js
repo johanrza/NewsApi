@@ -16,8 +16,8 @@ function main() {
       })
       .then((responseJson) => {
         // Menghilangkan object yang jika terdapat nilai null
-        if (responseJson.error) {
-          showResponseMessage(responseJson.message);
+        if (responseJson.status == "error") {
+          showError(responseJson.message);
         } else {
           const notNull = responseJson.articles.filter((article) => {
             for (let key in article) {
@@ -65,11 +65,20 @@ function main() {
     });
   };
 
-  const showError = () => {
-    document.body.innerHTML += `<div class="m-auto position-absolute top-50 start-50 translate-middle">
-    <h1 class="text-center">Not Found</h1>
-    <h1 class="text-center">Check your internet connection</h1>
-  </div>`;
+  // Semoga nggaa limitt :(
+  const showError = (status) => {
+    document.body.innerHTML += "";
+    if (status) {
+      document.body.innerHTML += `<div class="m-auto position-absolute top-50 start-50 translate-middle">
+      <h1 class="text-center">Not Found</h1>
+      <h4 class="text-center text-secondary">${status}</h4>
+    </div>`;
+    } else {
+      document.body.innerHTML += `<div class="m-auto position-absolute top-50 start-50 translate-middle">
+      <h1 class="text-center">Not Found</h1>
+      <h4 class="text-center text-secondary">Check your internet connection</h4>
+    </div>`;
+    }
   };
 
   document.addEventListener("DOMContentLoaded", () => {
