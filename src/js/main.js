@@ -1,4 +1,6 @@
 import "../component/title-category";
+// ES6 Modules or TypeScript
+import Swal from "sweetalert2";
 
 function main() {
   const baseUrl = "https://newsapi.org/v2/";
@@ -20,6 +22,8 @@ function main() {
         // Menghilangkan object yang jika terdapat nilai null
         if (responseJson.status == "error") {
           showError(responseJson.message);
+        } else if (responseJson.totalResults === 0) {
+          showNotFoundSearch();
         } else {
           const notNull = responseJson.articles.filter((article) => {
             for (let key in article) {
@@ -47,7 +51,7 @@ function main() {
 
   const getSearchNews = (keyword) => {
     const title = document.querySelector("title-news");
-    title.titleNews = `Kata kunci yang dicari: ${keyword}`;
+    title.titleNews = `Keyword: ${keyword}`;
     baseUrlSearch = `${baseUrlSearch}${keyword}`;
     getNews(baseUrlSearch);
     baseUrlSearch = `${baseUrl}everything?q=`;
@@ -85,6 +89,14 @@ function main() {
       <h4 class="text-center text-secondary">Check your internet connection</h4>
     </div>`;
     }
+  };
+
+  const showNotFoundSearch = () => {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "The news you are looking for could not be found",
+    });
   };
 
   document.addEventListener("DOMContentLoaded", () => {
