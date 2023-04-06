@@ -1,4 +1,8 @@
 function main() {
+  const baseUrl = "https://newsapi.org/v2/";
+  let baseUrlCategory = `${baseUrl}top-headlines?country=us&category=`;
+  let baseUrlSearch = `${baseUrl}everything?q=`;
+
   const getNews = (url) => {
     // terdapat nilai null dari API
     fetch(url, {
@@ -11,10 +15,20 @@ function main() {
         return response.json();
       })
       .then((responseJson) => {
+        // Menghilangkan object yang jika terdapat nilai null
         if (responseJson.error) {
           showResponseMessage(responseJson.message);
         } else {
-          renderAllNews(responseJson.articles);
+          const notNull = responseJson.articles.filter((article) => {
+            for (let key in article) {
+              if (key !== "source" && article[key] === null) {
+                return false;
+              }
+            }
+            return true;
+          });
+
+          renderAllNews(notNull);
         }
       })
       .catch((error) => {
@@ -22,14 +36,16 @@ function main() {
       });
   };
 
-  // const onSearchClicked = async () => {
-  //   try {
-  //     const result = await DataSource.searchClub(inputSearch.value);
-  //     renderResult(result);
-  //   } catch (message) {
-  //     fallbackResult(message);
-  //   }
-  // };
+  const getCategory = (category) => {
+    baseUrlCategory = baseUrlCategory.replace(/category=[^&]*/, `category=${category}`);
+    getNews(baseUrlCategory);
+  };
+
+  const getSearchNews = (keyword) => {
+    baseUrlSearch = `${baseUrlSearch}${keyword}`;
+    getNews(baseUrlSearch);
+    baseUrlSearch = `${baseUrl}everything?q=`;
+  };
 
   const renderAllNews = (News) => {
     const listNewsElement = document.getElementById("listNews");
@@ -57,8 +73,6 @@ function main() {
   };
 
   document.addEventListener("DOMContentLoaded", () => {
-    let baseUrlCategory = "https://newsapi.org/v2/top-headlines?country=us&category=";
-
     const catGeneral = document.getElementById("categoryGeneral");
     const catBusiness = document.getElementById("categoryBusiness");
     const catEntertainment = document.getElementById("categoryEntertainment");
@@ -72,53 +86,43 @@ function main() {
     catGeneral.addEventListener("click", (event) => {
       event.preventDefault();
       const category = "general";
-      baseUrlCategory = baseUrlCategory.replace(/category=[^&]*/, `category=${category}`);
-      getNews(baseUrlCategory);
+      getCategory(category);
     });
     catBusiness.addEventListener("click", (event) => {
       event.preventDefault();
       const category = "business";
-      baseUrlCategory = baseUrlCategory.replace(/category=[^&]*/, `category=${category}`);
-      getNews(baseUrlCategory);
+      getCategory(category);
     });
     catEntertainment.addEventListener("click", (event) => {
       event.preventDefault();
       const category = "entertainment";
-      baseUrlCategory = baseUrlCategory.replace(/category=[^&]*/, `category=${category}`);
-      getNews(baseUrlCategory);
+      getCategory(category);
     });
     catHealth.addEventListener("click", (event) => {
       event.preventDefault();
       const category = "health";
-      baseUrlCategory = baseUrlCategory.replace(/category=[^&]*/, `category=${category}`);
-      getNews(baseUrlCategory);
+      getCategory(category);
     });
     catScience.addEventListener("click", (event) => {
       event.preventDefault();
       const category = "science";
-      baseUrlCategory = baseUrlCategory.replace(/category=[^&]*/, `category=${category}`);
-      getNews(baseUrlCategory);
+      getCategory(category);
     });
     catSports.addEventListener("click", (event) => {
       event.preventDefault();
       const category = "sports";
-      baseUrlCategory = baseUrlCategory.replace(/category=[^&]*/, `category=${category}`);
-      getNews(baseUrlCategory);
+      getCategory(category);
     });
     catTechnology.addEventListener("click", (event) => {
       event.preventDefault();
       const category = "technology";
-      baseUrlCategory = baseUrlCategory.replace(/category=[^&]*/, `category=${category}`);
-      getNews(baseUrlCategory);
+      getCategory(category);
     });
 
     formSearch.addEventListener("submit", (event) => {
       event.preventDefault();
-      let news = "";
-      news = inputSearch.value;
-      baseUrlCategory = baseUrlCategory.replace("top-headlines?country=us&category=", `everything?q=${news}`);
-      getNews(baseUrlCategory);
-      console.log(baseUrlCategory);
+      const search = inputSearch.value;
+      getSearchNews(search);
     });
 
     getNews(baseUrlCategory);
