@@ -2,7 +2,7 @@ import "../component/title-category";
 // ES6 Modules or TypeScript
 import Swal from "sweetalert2";
 
-function main() {
+const main = () => {
   const baseUrl = "https://newsapi.org/v2/";
   let baseUrlCategory = `${baseUrl}top-headlines?country=us&category=general`;
   let baseUrlSearch = `${baseUrl}everything?q=`;
@@ -61,14 +61,14 @@ function main() {
     const listNewsElement = document.getElementById("listNews");
     listNewsElement.innerHTML = "";
 
-    News.forEach((news) => {
+    News.forEach(({ urlToImage, url, title, author, description }) => {
       listNewsElement.innerHTML += `<div class="col">
         <div class="card">
-          <img src="${news.urlToImage}" class="card-img-top" alt="image" />
+          <img src="${urlToImage}" class="card-img-top" alt="image" />
           <div class="card-body">
-            <a href="${news.url}"><h5 class="card-title">${news.title}</h5></a>
-            <h6 class="card-title">${news.author}</h6>
-            <p class="card-text">${news.description}</p>
+            <a href="${url}"><h5 class="card-title">${title}</h5></a>
+            <h6 class="card-title">${author}</h6>
+            <p class="card-text">${description}</p>
           </div>
         </div>
       </div>`;
@@ -154,6 +154,6 @@ function main() {
 
     getNews(baseUrlCategory);
   });
-}
+};
 
 export default main;
